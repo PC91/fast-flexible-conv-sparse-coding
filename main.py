@@ -1,9 +1,9 @@
 import numpy as np
 from PIL import Image
 import convolutionalsparsecoding as CSC
-import filehelp as fh
+# import filehelp as fh
 import os
-import itertools
+# import itertools
 
 def listdir_nohidden(path):
     for f in os.listdir(path):
@@ -11,7 +11,9 @@ def listdir_nohidden(path):
             yield f
  
 #path = '/home/chau/Dropbox/PRIM/small_images/'
-path = '/Users/huydinh/Dropbox/PRIM/single_image/'
+# path = '/Users/huydinh/Dropbox/PRIM/single_image/'
+# path = './single_image/'
+path = './small_images/'
 
 fileList_gen = listdir_nohidden(path)
 

@@ -6,9 +6,12 @@ and a reconstruction for the dataset.
 - We denote the step to solve the filter is d-step and the codes z-step
 """
 import numpy as np
-from numpy import linalg
-import filehelp as fh           #DEBUG
+from scipy import linalg
+# import filehelp as fh           #DEBUG
 from scipy.fftpack import fft2, ifft2
+
+# XXX : try joblib.Parallel for parallel processing
+# use fftpack from mkl (anaconda edu) with mkl.set_num_threads(4)
 
 real_type = 'float64'
 imaginary_type = 'complex128'
@@ -314,7 +317,7 @@ def precompute_H_hat_D(z_hat, size_z, rho):
     k = size_z[1]
     
     #Precompute spectra for H    
-    zhat_mat = np.ndarray.transpose(z_hat.transpose(0,1,3,2).reshape(n, k, -1), [2, 0, 1])
+    zhat_mat = np.transpose(z_hat.transpose(0,1,3,2).reshape(n, k, -1), [2, 0, 1])
     
     #Precompute the inverse matrices for each frequency    
     zhat_inv_mat = np.zeros((zhat_mat.shape[0], k, k), dtype=imaginary_type)
@@ -323,11 +326,14 @@ def precompute_H_hat_D(z_hat, size_z, rho):
     
     z_hat_mat_t = np.transpose(np.ma.conjugate(zhat_mat), [0, 2, 1])
     
-    z_hat_z_hat_t = np.einsum('knm,kmj->knj',zhat_mat, z_hat_mat_t)
+    z_hat_z_hat_t = np.einsum('knm,kmj->knj', zhat_mat, z_hat_mat_t).real
     
     #NOT SURE IF THIS PART COULD BE ACCELERATED OR NOT    (I)
     for i in range(zhat_mat.shape[0]):
-        inv_rho_z_hat_z_hat_t[i] = np.linalg.pinv(rho * np.eye(n) + z_hat_z_hat_t[i])
+        this_zz = z_hat_z_hat_t[i]
+        this_zz.flat[::n + 1] += rho
+        inv_rho_z_hat_z_hat_t[i] = linalg.pinv(this_zz)
+
                                  
     zhat_inv_mat = 1.0/rho * (np.eye(k) - 
                               np.einsum('knm,kmj->knj',                              
