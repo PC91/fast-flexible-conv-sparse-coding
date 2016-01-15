@@ -1,19 +1,20 @@
 import numpy as np
 from PIL import Image
 import convolutionalsparsecoding as CSC
-# import filehelp as fh
+import filehelp as fh
 import os
-# import itertools
+import time
+import itertools
 
 def listdir_nohidden(path):
     for f in os.listdir(path):
         if not f.startswith('.'):
             yield f
+
+start = time.clock()
  
 #path = '/home/chau/Dropbox/PRIM/small_images/'
-# path = '/Users/huydinh/Dropbox/PRIM/single_image/'
-# path = './single_image/'
-path = './small_images/'
+path = '/Users/huydinh/Dropbox/PRIM/big_images/'
 
 fileList_gen = listdir_nohidden(path)
 
@@ -40,7 +41,7 @@ for infile in fileList:
 #fh.read_file('/home/chau/Dropbox/PRIM/b.txt', b, 3)
 
 #Define the parameters
-size_kernel = [10, 5, 5]
+size_kernel = [100, 11, 11]
 lambda_residual = np.float64(1.0)
 lambda_prior = np.float64(1.0)
 
@@ -50,4 +51,8 @@ tol = np.float64(1e-3)
 
 [d, z, Dz] = CSC.learn_conv_sparse_coder(b, size_kernel, lambda_residual, lambda_prior, max_it, tol)
 #print d.size, z.size, Dz.size
-np.savez('single_image.npz', d=d, z=z, Dz=Dz)
+np.savez('big_images_fast.npz', d=d, z=z, Dz=Dz)
+
+end = time.clock()
+
+print end - start
