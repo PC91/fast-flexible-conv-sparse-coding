@@ -9,12 +9,10 @@ import time
 start = time.clock()
 
 #Set this variable the data path to the EEG dataset
-#data_path = '/home/chau/Dropbox/PRIM/EEG/'
-data_path = '/Users/huydinh/Dropbox/PRIM/EEG/'
+data_path = '../EEG/'
 
 #Set this variable the path for the result folder
-#result_path = '/home/chau/Dropbox/PRIM/Code_Signal/Result/'
-result_path = '/Users/huydinh/Dropbox/PRIM/Code_Signal/Result/'
+result_path = '../Code_Signal/Result/'
 
 #Load the available result from previous times of running
 output = np.load(result_path + 'result_eeg_50_128_201.npz')
