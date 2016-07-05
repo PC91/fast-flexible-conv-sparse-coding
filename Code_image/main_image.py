@@ -16,7 +16,7 @@ start = time.clock()
 
 #Set this variable the data path to the image dataset 
 #path = '/home/chau/Dropbox/PRIM/small_images/'
-path = '/Users/huydinh/Dropbox/PRIM/medium_images/'
+path = '../medium_images/'
 
 #Get the images
 fileList_gen = listdir_nohidden(path)

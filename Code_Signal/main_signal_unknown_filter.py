@@ -10,10 +10,10 @@ start = time.clock()
 
 #Set this variable the data path to the EEG dataset
 #ata_path = '/home/chau/Dropbox/PRIM/EEG/'
-data_path = '/Users/huydinh/Dropbox/PRIM/EEG/'
+data_path = '../EEG/'
 
 #Set this variable the path for the result folder
-result_path = '/home/chau/Dropbox/PRIM/Code_Signal/Result/'
+result_path = '../Code_Signal/Result/'
 
 #Load data to be run
 mat = loadmat(data_path + 'eeg_data.mat')
